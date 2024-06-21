@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Dancing_Script } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const dancing_script = Dancing_Script({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className="w-screen min-h-screen bg-teal-200 flex flex-col items-center ">
+        <h1
+          className={`${dancing_script.className} text-6xl text-blue-400 mt-10`}
+        >
+          Kairi&apos;s Todolist
+        </h1>
+        {children}
+      </body>
     </html>
   );
 }
