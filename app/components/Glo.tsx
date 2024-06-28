@@ -9,8 +9,8 @@ interface TaskListProps {
 }
 
 const Glo: React.FC<TaskListProps> = ({ tasks }) => {
-  const ref = useRef(null);
   const [list, setlist] = useState<Data[]>(tasks);
+  const ref = useRef(null);
 
   const createtask = async (
     e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
@@ -31,6 +31,23 @@ const Glo: React.FC<TaskListProps> = ({ tasks }) => {
       }
     }
   };
+
+  const deletetask = async (id: number) => {
+    const res = await fetch("http://localhost:3000/api/delete", {
+      method: "DELETE",
+      body: JSON.stringify({
+        id,
+      }),
+    });
+    const json = await res.json();
+
+    const newlist = list.filter((value) => {
+      return value.id != json.id;
+    });
+
+    setlist(newlist);
+  };
+
   return (
     <>
       <form className="w-56 h-16   flex flex-col items-center justify-around">
@@ -53,7 +70,12 @@ const Glo: React.FC<TaskListProps> = ({ tasks }) => {
             >
               <p className="w-full h-[2px] text-2xl">{value.task}</p>
 
-              <MdDeleteOutline className="mt-[5px] text-3xl text-red-600 cursor-pointer" />
+              <MdDeleteOutline
+                onClick={() => {
+                  deletetask(value.id);
+                }}
+                className="mt-[5px] text-3xl text-red-600 cursor-pointer"
+              />
             </div>
           );
         })}
